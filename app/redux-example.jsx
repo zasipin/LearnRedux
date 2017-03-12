@@ -1,15 +1,8 @@
 var redux = require('redux');
 
 console.log('Starting redux example');
-
-var hobbyId = 1,
-    movieId = 1;
-var stateDefault = {
-  name: 'Anonymous',
-  hobbies: [],
-  movies: []
-};
-
+    
+// Name reducer and action generators
 var nameReducer = (state = 'Anonymous', action) => {
   switch(action.type) {
     case 'CHANGE_NAME':
@@ -18,7 +11,15 @@ var nameReducer = (state = 'Anonymous', action) => {
       return state;
   }
 };
+var changeName = (name) => {
+  return {
+    type: 'CHANGE_NAME',
+    name   // similar to - name: name
+  }
+}
 
+// Hobby reducer and action generators
+var hobbyId = 1;
 var hobbiesReducer = (state = [], action) => {
   switch(action.type){
     case 'ADD_HOBBY':
@@ -36,6 +37,22 @@ var hobbiesReducer = (state = [], action) => {
   }
 };
 
+var addHobby = (hobby) => {
+  return {
+    type: 'ADD_HOBBY',
+    hobby   
+  }
+}
+
+var removeHobby = (id) => {
+  return {
+    type: 'REMOVE_HOBBY',
+    id   
+  }
+}
+
+// Movie reducer and action generators
+var movieId = 1;
 var moviesReducer = (state = [], action) => {
     switch(action.type){
       case 'ADD_MOVIE':
@@ -54,6 +71,21 @@ var moviesReducer = (state = [], action) => {
   }
 
 };
+
+var addMovie = (movie) => {
+  return {
+    type: 'ADD_MOVIE',
+    ...movie  
+  }
+}
+
+var removeMovie = (id) => {
+  return {
+    type: 'REMOVE_MOVIE',
+    id   
+  }
+}
+
 
 var reducer = redux.combineReducers({
   name: nameReducer,
@@ -77,44 +109,18 @@ var unsubscribe = store.subscribe(() => {
 var currentState = store.getState();
 console.log('currentState', currentState);
 
-store.dispatch({
-  type: 'CHANGE_NAME',
-  name: 'Andrew'
-});
+store.dispatch(changeName('Andrew'));
 
-store.dispatch({
-  type: 'ADD_HOBBY',
-  hobby: 'running'
-});
+store.dispatch(addHobby('running'));
 
-store.dispatch({
-  type: 'ADD_HOBBY',
-  hobby: 'walking'
-});
+store.dispatch(addHobby('walking'));
 
-store.dispatch({
-  type: 'REMOVE_HOBBY',
-  id: 2
-});
+store.dispatch(removeHobby(2));
 
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'soome',
-  genre: 'genre1'
-});
+store.dispatch(addMovie({title: 'soome', genre: 'genre1'}));
 
-store.dispatch({
-  type: 'ADD_MOVIE',
-  title: 'so12ome',
-  genre: 'genre3'
-});
+store.dispatch(addMovie({title: 'so23ome', genre: 'genre3'}));
 
-store.dispatch({
-  type: 'REMOVE_MOVIE',
-  id: 1
-})
+store.dispatch(removeMovie(1));
 
-store.dispatch({
-  type: 'CHANGE_NAME',
-  name: 'Emily'
-});
+store.dispatch(changeName('Emily'));
